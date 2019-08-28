@@ -1,0 +1,1 @@
+const countPerPage = 10

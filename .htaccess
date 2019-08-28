@@ -1,0 +1,10 @@
+<IfModule dir_module>
+    DirectoryIndex public/index.php
+</IfModule>
+
+RewriteEngine on
+RewriteCond %{REQUEST_URI} !.html$ [NC]
+RewriteCond %{REQUEST_URI} !.css$ [NC]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule .* public/index.php [L]
