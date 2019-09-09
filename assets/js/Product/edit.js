@@ -1,5 +1,5 @@
 $(document).ready(() => {
-	//validation for update form
+    //validation for update form
     $('#updateForm').validate({
         rules: {
             product_name: {
@@ -19,25 +19,25 @@ $(document).ready(() => {
         },
         onkeyup: () => {
             $('#updateForm').valid()
-            if ($('#updateForm').valid()){
+            if ($('#updateForm').valid()) {
                 $('#update').removeAttr('disabled')
             }
         },
         onclick: () => {
             $('#updateForm').valid()
-            if ($('#updateForm').valid()){
+            if ($('#updateForm').valid()) {
                 $('#update').removeAttr('disabled')
             }
         },
         submitHandler: (form, event) => {
-            if ($('#updateForm').valid()){
+            if ($('#updateForm').valid()) {
                 $.ajax({
                     type: 'PUT',
                     url: '/products/update',
                     contentType: 'application/json',
                     data: $('#updateForm').serialize(),
                     success: (data) => {
-                        window.location.pathname='/products'
+                        window.location.pathname = '/products'
                     },
                     error: (xhr, status, error) => {
                         $('#result').text('Product was not updated')

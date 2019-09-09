@@ -1,4 +1,5 @@
 <?php
+
 class Product implements JsonSerializable
 {
     protected $id;
@@ -6,7 +7,7 @@ class Product implements JsonSerializable
     protected $price;
     protected $category;
     protected $count;
-    protected $deleted=0;
+    protected $deleted = 0;
 
     public function getId()
     {
@@ -20,9 +21,9 @@ class Product implements JsonSerializable
 
     public function setName($name)
     {
-        if(isset($name) && $name === '') {
-            $name = NULL;
-        } 
+        if (isset($name) && $name === '') {
+            $name = null;
+        }
         $this->name = $name;
     }
 
@@ -61,7 +62,7 @@ class Product implements JsonSerializable
         return $this->deleted;
     }
 
-    public function setDeleted($deleted=0)
+    public function setDeleted($deleted = 0)
     {
         $this->deleted = $deleted;
     }
@@ -71,14 +72,14 @@ class Product implements JsonSerializable
      */
     public function jsonSerialize()
     {
-        return 
-        [
-            'id' => $this->getId(),
-            'name' => $this->getName(),
-            'price' => $this->getPrice(),
-            'category' => $this->getCategory(),
-            'count' => $this->getCount(),
-            'deleted' => $this->getDeleted()
-        ];
+        return
+            [
+                'id' => $this->getId(),
+                'name' => $this->getName(),
+                'price' => $this->getPrice(),
+                'category' => $this->getCategory(),
+                'count' => $this->getCount(),
+                'deleted' => $this->getDeleted()
+            ];
     }
 }

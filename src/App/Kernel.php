@@ -2,11 +2,13 @@
 require_once '../vendor/autoload.php';
 require_once '../src/Controller/BaseController.php';
 
-class Kernel{
+class Kernel
+{
     protected $dispatcher;
 
-    public function __construct() {
-        $this->dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r){
+    public function __construct()
+    {
+        $this->dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
             $routes = include('../config/routes.php');
             foreach ($routes as $route) {
                 $r->addRoute($route[0], $route[1], $route[2]);
@@ -14,7 +16,8 @@ class Kernel{
         });
     }
 
-    public function initialize($request) {
+    public function initialize($request)
+    {
         $uri = $request->getUri()->getPath();
         if (false !== $pos = strpos($uri, '?')) {
             $uri = substr($uri, 0, $pos);
@@ -29,18 +32,18 @@ class Kernel{
                 $allowedMethods = $routeInfo[1];
                 $allowed = '';
                 foreach ($allowedMethods as $index => $method) {
-                    $allowed .= $method . ($allowedMethods[($index + 1)] ? ',' : '');
+                    $allowed .= $method.($allowedMethods[($index + 1)] ? ',' : '');
                 }
-                echo 'Not allowed method. Please try ' . $allowed;
+                echo 'Not allowed method. Please try '.$allowed;
                 break;
             case FastRoute\Dispatcher::FOUND:
                 list($controllerName, $controllerMethod, $middlewares) = $routeInfo[1];
 
                 //init middlewares for current uri
-                if($middlewares) {
+                if ($middlewares) {
                     foreach ($middlewares as $middleware) {
                         $middleware = ucfirst($middleware);
-                        $path = implode(DIRECTORY_SEPARATOR, [ROOTPATH, 'src', 'Middleware', $middleware . '.php']);
+                        $path = implode(DIRECTORY_SEPARATOR, [ROOTPATH, 'src', 'Middleware', $middleware.'.php']);
                         require $path;
                         $request = $middleware::handle($request);
                     }
@@ -48,7 +51,7 @@ class Kernel{
 
                 //call needed Controller action
                 $controllerName = ucfirst($controllerName).'Controller';
-                $path = implode(DIRECTORY_SEPARATOR, [ROOTPATH, 'src', 'Controller', $controllerName . '.php']);
+                $path = implode(DIRECTORY_SEPARATOR, [ROOTPATH, 'src', 'Controller', $controllerName.'.php']);
                 require_once $path;
                 $controller = new $controllerName();
                 $controller->{$controllerMethod}($request);

@@ -1,6 +1,6 @@
 <?
 return [
-	['GET', '/', ['user', 'authorization', []]],
+    ['GET', '/', ['user', 'authorization', []]],
     ['GET', '/products', ['product', 'list', ['productListValidation']]],
     ['GET', '/products/create', ['product', 'create', []]],
     ['POST', '/products/add', ['product', 'add', ['productAddValidation']]],

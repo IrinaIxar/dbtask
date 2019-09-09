@@ -1,6 +1,8 @@
 <?
-class User implements JsonSerializable {
-	protected $id;
+
+class User implements JsonSerializable
+{
+    protected $id;
     protected $login;
     protected $password;
     protected $deleted;
@@ -35,7 +37,7 @@ class User implements JsonSerializable {
         return $this->deleted;
     }
 
-    public function setDeleted($deleted=0)
+    public function setDeleted($deleted = 0)
     {
         $this->deleted = $deleted;
     }
@@ -45,12 +47,12 @@ class User implements JsonSerializable {
      */
     public function jsonSerialize()
     {
-        return 
-        [
-            'id' => $this->getId(),
-            'login' => $this->getLogin(),
-            'password' => $this->getPassword(),
-            'deleted' => $this->getDeleted()
-        ];
+        return
+            [
+                'id' => $this->getId(),
+                'login' => $this->getLogin(),
+                'password' => $this->getPassword(),
+                'deleted' => $this->getDeleted()
+            ];
     }
 }

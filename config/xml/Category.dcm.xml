@@ -1,7 +1,7 @@
 <!-- config/xml/Category.dcm.xml -->
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
       https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
     <entity name="Category" table="categories">
@@ -11,10 +11,10 @@ xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
         </indexes>
 
         <id name="id" type="integer">
-            <generator strategy="AUTO" />
+            <generator strategy="AUTO"/>
         </id>
 
-        <field name="name" type="string" nullable="false" />
+        <field name="name" type="string" nullable="false"/>
 
         <field name="deleted" type="boolean">
             <options>

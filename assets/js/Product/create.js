@@ -1,5 +1,5 @@
 $(document).ready(() => {
-	//validation for create form
+    //validation for create form
     $('#addForm').validate({
         rules: {
             product_name: {
@@ -19,20 +19,20 @@ $(document).ready(() => {
         },
         onkeyup: () => {
             $('#addForm').valid()
-            if ($('#addForm').valid()){
+            if ($('#addForm').valid()) {
                 $('#add').removeAttr('disabled')
             }
         },
         submitHandler: (form, event) => {
-            if ($('#addForm').valid()){
+            if ($('#addForm').valid()) {
                 $.ajax({
                     type: 'POST',
-                    url: window.location.origin+'/products/add',
+                    url: window.location.origin + '/products/add',
                     data: $('#addForm').serialize(),
                     dataType: 'json',
                     success: (data) => {
-                        if(data.result === true) $('#result').text('Product was successfully added')
-                    	else $('#result').text(data.result)
+                        if (data.result === true) $('#result').text('Product was successfully added')
+                        else $('#result').text(data.result)
                     },
                     error: (xhr, status, error) => {
                         $('#result').text('Product was not added')
@@ -41,10 +41,10 @@ $(document).ready(() => {
 
                 $('#addForm')[0].reset()
                 $('#add').attr('disabled', 'disabled')
-                if(confirm('Do you want to add more?')) {
+                if (confirm('Do you want to add more?')) {
                     return false
                 } else {
-                    window.location.pathname='/products'
+                    window.location.pathname = '/products'
                 }
             }
         }

@@ -1,9 +1,10 @@
 <?php
+
 class Category implements JsonSerializable
 {
     protected $id;
     protected $name;
-    protected $deleted=0;
+    protected $deleted = 0;
 
     public function getId()
     {
@@ -17,8 +18,8 @@ class Category implements JsonSerializable
 
     public function setName($name)
     {
-        if(isset($name) && $name === '') {
-            $name = NULL;
+        if (isset($name) && $name === '') {
+            $name = null;
         }
         $this->name = $name;
     }
@@ -28,7 +29,7 @@ class Category implements JsonSerializable
         return $this->deleted;
     }
 
-    public function setDeleted($deleted=0)
+    public function setDeleted($deleted = 0)
     {
         $this->deleted = $deleted;
     }
@@ -38,11 +39,11 @@ class Category implements JsonSerializable
      */
     public function jsonSerialize()
     {
-        return 
-        [
-            'id' => $this->getId(),
-            'name' => $this->getName(),
-            'deleted' => $this->getDeleted()
-        ];
+        return
+            [
+                'id' => $this->getId(),
+                'name' => $this->getName(),
+                'deleted' => $this->getDeleted()
+            ];
     }
 }
