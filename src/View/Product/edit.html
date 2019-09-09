@@ -1,12 +1,12 @@
 <nav aria-label='breadcrumb'>
 	<ol class='breadcrumb'>
-		<li class='breadcrumb-item'><a href='/'>Home</a></li>
-		<li class='breadcrumb-item'><a href='/#task6'>Product list</a></li>
+		<li class='breadcrumb-item'><a href='/products'>Product list</a></li>
 		<li class='breadcrumb-item active' aria-current='page'>Update product</li>
 	</ol>
 </nav>
 <form id='updateForm'>
 	<div class='form-row'>
+		<input type='hidden' name='id' value='<?=$product->getId()?>'/>
 		<div class='form-group col-md-9'>
 			<label for='name'>Name</label>
 			<input type='text' class='form-control' name='name' placeholder='Name' value='<?=$product->getName();?>'>
@@ -35,4 +35,4 @@
 		<div id='result'></div>
 	</div>
 </form>
-<script src='/assets/js/Product/update.js'></script>
+<script src='/assets/js/Product/edit.js'></script>

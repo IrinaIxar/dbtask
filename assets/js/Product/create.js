@@ -27,7 +27,7 @@ $(document).ready(() => {
             if ($('#addForm').valid()){
                 $.ajax({
                     type: 'POST',
-                    url: window.location.origin+'/product/add',
+                    url: window.location.origin+'/products/add',
                     data: $('#addForm').serialize(),
                     dataType: 'json',
                     success: (data) => {
@@ -44,7 +44,7 @@ $(document).ready(() => {
                 if(confirm('Do you want to add more?')) {
                     return false
                 } else {
-                    window.location.pathname='/product/list'
+                    window.location.pathname='/products'
                 }
             }
         }

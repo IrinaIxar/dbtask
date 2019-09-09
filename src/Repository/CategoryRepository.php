@@ -26,17 +26,17 @@ class CategoryRepository {
      * @param string $order asc/desc sort
      * @return array categories
      */ 
-	public function findAllProductCount($field='', $order='') {
+	public function findAllProductCount($field = '', $order='') {
 		$qb = $this->em->createQueryBuilder();
 		$qb->from('Product', 'p')
 			->select('c.name as name')
 			->where('p.deleted = 0')
 			->andWhere('c.deleted = 0')
 			->addSelect('count(p.id) as count')
-			->leftJoin('p.category', 'c')
+			->join('p.category', 'c')
 			->groupby('c.id');
 			
-		if($field !== '' && $field !== null) {
+		if ($field) {
 			$qb->addOrderBy($field, $order);
 		}
 

@@ -1,5 +1,5 @@
 function redirect(page) {
-	window.location='/product/list?page='+page+'&countPerPage='+countPerPage+'&sort='+$('#sort').val()+'&order='+$('#order').val()
+	window.location='/products?page='+page+'&countPerPage='+countPerPage+'&sort='+$('#sort').val()+'&order='+$('#order').val()
 }
 
 $(document).ready(() => {
@@ -19,7 +19,7 @@ $(document).ready(() => {
 	$('.fa-pencil').on('click', (event) => {
 		let parent = $(event.target).parent()
 		parent = $(parent).parent()
-		window.location.href = window.location.origin+'/product/update/'+$(parent).attr('id')
+		window.location.href = window.location.origin+'/products/'+$(parent).attr('id')
 	})
 
 	$('.fa-trash').on('click', (event) => {
@@ -27,8 +27,8 @@ $(document).ready(() => {
 			let parent = $(event.target).parent()
 			parent = $(parent).parent()
 			$.ajax({
-				type: 'GET',
-				url: window.location.origin+'/product/delete/'+$(parent).attr('id'),
+				type: 'DELETE',
+				url: '/products/'+$(parent).attr('id'),
 				dataType: 'json',
 				success: (data) => {
 					if (data.result === 'deleted') {

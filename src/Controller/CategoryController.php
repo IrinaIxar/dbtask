@@ -5,13 +5,17 @@ class CategoryController extends BaseController {
 	/**
      * Categories list
      *
-     * @param string $sort object field by which categories are sorted
-     * @param string $order asc/desc sort
+     * @param $request
      * @return view of list page
      */ 
-	public function list($sort='name', $order='ASC') {
+	public function list($request) {
+		$params = $request->getQueryParams();
 		$categoryRepository = new CategoryRepository();
-		$categories = $categoryRepository->findAllProductCount($sort, $order);
-		echo $this->render('Category/list.html', ['categories' => $categories, 'sort' => $sort, 'order' => $order], false);
+		$categories = $categoryRepository->findAllProductCount($params['sort'], $params['order']);
+		return $this->render('Category/list.html', [
+			'categories' => $categories, 
+			'sort' => $params['sort'], 
+			'order' => $params['order']
+		]);
 	}
 }

@@ -3,81 +3,94 @@ require '../src/Repository/ProductRepository.php';
 require '../src/Repository/CategoryRepository.php';
 
 class ProductController extends BaseController {
-
 	/**
      * Products list
      *
-     * @param string $sort object field is sorted
-     * @param string $order asc/desc sort
+     * @param $request
      * @return view of list page
      */ 
-	public function list($page='1', $countPerPage='10', $sort='price', $order='ASC') {
+	public function list($request) {
+		$params = $request->getQueryParams();
 		$productRepository = new ProductRepository();
-		$pagesCount = ceil(count($productRepository->findAll())/$countPerPage);
-		echo $this->render('Product/list.html', [	
-								'products'=>$productRepository->findBy([], $page, $countPerPage, $sort, $order), 
-								'sort' => $sort,
-								'order' => $order,
-								'pagesCount' => $pagesCount,
-								'page' => $page
-							]);
+		$pagesCount = ceil(count($productRepository->findAll())/$params['countPerPage']);
+
+		return $this->render('Product/list.html', [	
+			'products'=>$productRepository->findBy([], $params['page'], $params['countPerPage'], $params['sort'], $params['order']), 
+			'sort' => $params['sort'],
+			'order' => $params['order'],
+			'page' => $params['page'],
+			'pagesCount' => $pagesCount
+		]);
 	}
 
 	/**
-     * Create product
+     * Create product page
      *
-     * @return mixed string|view 
+     * @return mixed view 
      */ 
-	public function add() {
+	public function create() {
 		$categoryRepository = new CategoryRepository();
+		$categories = $categoryRepository->findAll();
 
-		if(isset($_POST['category_id'])) {
-			$category = $categoryRepository->findById($_POST['category_id']);
-			$product = new Product();
-			$product->setName($_POST['name']);
-			$product->setPrice((float)$_POST['price']);
-			$product->setCategory($category);
-			$product->setCount((int)$_POST['count']);
+		return $this->render('Product/create.html', [
+			'categories' => $categories
+		]);		
+	}
 
-			$productRepository = new ProductRepository();
-			$result = $productRepository->add($product);
-			echo json_encode(['result' => $result]);
-		} else {
-			$categories = $categoryRepository->findAll();
-			echo $this->render('Product/add.html', ['categories' => $categories], false);
-		}		
+	/** 
+     * Add product to DB
+     *
+     * @param $request
+     * @return string 
+     */ 
+	public function add($request) {
+		$productRepository = new ProductRepository();
+		$result = $productRepository->add($request);
+
+		echo json_encode(['result' => $result]);	
+	}
+
+	/**
+     * Product edit page
+     *
+     * @param $request
+     * @return view of update page
+     */ 
+	public function edit($request) {
+		$path = explode('/', $request->getUri()->getPath());
+		$productRepository = new ProductRepository();
+		$product = $productRepository->findById(end($path));
+		$categoryRepository = new CategoryRepository();
+		$categories = $categoryRepository->findAll();
+
+		return $this->render('Product/edit.html', [
+			'product' => $product, 
+			'categories' => $categories
+		]);
 	}
 
 	/**
      * Product by id
      *
-     * @param integer $id product identifier
-     * @return view of update page
+     * @param $request
+     * @return string
      */ 
-	public function update($id) {
+	public function update($request) {
 		$productRepository = new ProductRepository();
-		$product = $productRepository->findById($id);
-		$categoryRepository = new CategoryRepository();
-
-		if(!empty($_POST) && isset($product)){
-			$_POST['id'] = $id;
-			$productRepository->update($_POST);
-		} else {
-			$categories = $categoryRepository->findAll();
-		}
-
-		echo $this->render('Product/update.html', ['product' => $product, 'categories' => $categories], false);
+		$productRepository->update($request);
+		echo json_encode(['result' => 'true']);
 	}
 
 	/**
      * Removes product
      *
-     * @param integer $id
+     * @param $request
      * @return string
      */ 
-	public function delete($id) {
+	public function delete($request) {
+		$path = explode('/', $request->getUri()->getPath());
 		$productRepository = new ProductRepository();
-		$result = $productRepository->remove($id);
+		$result = $productRepository->remove(end($path));
 
 		echo json_encode(['result' => $result]);
 	}

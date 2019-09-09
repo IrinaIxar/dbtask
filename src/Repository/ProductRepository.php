@@ -47,10 +47,20 @@ class ProductRepository {
 	/**
      * Adds new product
      *
-     * @param Product $product
+     * @param $request
      * @return string
      */ 
-	public function add($product) {
+	public function add($request) {
+		$params = $request->getParsedBody();
+		$categoryRepository = $this->em->getRepository('Category');
+		$category = $categoryRepository->find($params['category_id']);
+
+		$product = new Product();
+		$product->setName($params['name']);
+		$product->setPrice((float)$params['price']);
+		$product->setCategory($category);
+		$product->setCount((int)$params['count']);
+
 		$this->em->persist($product);
 		$this->em->flush();
 
@@ -78,17 +88,18 @@ class ProductRepository {
 	/**
      * Updates product
      *
-     * @param array $form
+     * @param $request
      */ 
-	public function update($form) {
+	public function update($request) {
+		$params = $request->getParsedBody();
 		$categoryRepository = $this->em->getRepository('Category');
-		$category = $categoryRepository->find($form['category_id']);
-		$product = $this->productRepository->findOneBy(['id' => $form['id']]);
+		$category = $categoryRepository->find($params['category_id']);
+		$product = $this->productRepository->findOneBy(['id' => $params['id']]);
 
-		$product->setName($form['name']);
-		$product->setPrice((float)$form['price']);
+		$product->setName($params['name']);
+		$product->setPrice((float)$params['price']);
 		$product->setCategory($category);
-		$product->setCount((int)$form['count']);
+		$product->setCount((int)$params['count']);
 
 		$this->em->flush();
 	}

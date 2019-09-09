@@ -32,10 +32,12 @@ $(document).ready(() => {
         submitHandler: (form, event) => {
             if ($('#updateForm').valid()){
                 $.ajax({
-                    type: 'POST',
+                    type: 'PUT',
+                    url: '/products/update',
+                    contentType: 'application/json',
                     data: $('#updateForm').serialize(),
                     success: (data) => {
-                        window.location.pathname='/product/list'
+                        window.location.pathname='/products'
                     },
                     error: (xhr, status, error) => {
                         $('#result').text('Product was not updated')

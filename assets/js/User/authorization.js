@@ -18,22 +18,21 @@ $(document).ready(() => {
             if ($('#auth').valid()){
                 $.ajax({
                     type: 'POST',
-                    url: window.location.origin+'/user/login',
+                    url: '/users/login',
                     data: $('#auth').serialize(),
                     dataType: 'json',
                     success: (data) => {
                         if(data.result === 'true') {
-                            window.location='/product/list'
+                            window.location='/products'
                         }
                         $('#result').text(data.result)
                     },
-                    error: (xhr, status, error) => {
+                    error: (xhr, ajaxOptions, thrownError) => {
+                        alert(thrownError);
                         $('#result').text('Authorization failed')
                     }
                 })
-
-                $('#auth')[0].reset()
-                $('#submit').attr('disabled', 'disabled')
+                
                 return false
             }
         }
@@ -60,14 +59,17 @@ $(document).ready(() => {
             if ($('#addForm').valid()){
                 $.ajax({
                     type: 'POST',
-                    url: window.location.origin+'/user/add',
+                    url: window.location.origin+'/users/add',
                     data: $('#addForm').serialize(),
                     dataType: 'json',
                     success: (data) => {
                         $('#result').text(data.result)
+                        if(data.result === 'true') {
+                            window.location='/products'
+                        }
                     },
                     error: () => {
-                        $('#result').text('Authorization failed')
+                        $('#result').text('User was not added')
                     }
                 })
 

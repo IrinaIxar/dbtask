@@ -30,10 +30,16 @@ class UserRepository {
 	/**
      * Adds new user
      *
-     * @param User $user
+     * @param $request
      * @return string
      */ 
-	public function add($user) {
+	public function add($request) {
+		$params = $request->getParsedBody();
+		$user = new User();
+		$user->setLogin($params['addLogin']);
+		$user->setPassword(md5($params['addPassword']));
+		$user->setDeleted(0);
+		
 		$this->em->persist($user);
 		$this->em->flush();
 

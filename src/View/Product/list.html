@@ -1,5 +1,5 @@
 <div class='row margin-bottom-10 d-flex'>
-	<a class='btn btn-success margin-right-10' id='createProduct' href='/product/add'>Create</a>
+	<a class='btn btn-success margin-right-10' id='createProduct' href='/products/create'>Create</a>
 	<div id='deleteResult' class='d-flex align-items-center'></div>
 </div>
 <div class='row'>
@@ -11,7 +11,7 @@
 				<th id='name' abbr='<? echo ($sort === "name" ? ($order === "asc" ? "desc" : "asc") : "asc");?>'>Name <i class='fa fa-fw fa-sort'></i></th>
 				<th id='price' abbr='<? echo ($sort === "price" ? ($order === "asc" ? "desc" : "asc") : "asc");?>'>Price <i class='fa fa-fw fa-sort'></i></th>
 				<th id='count' abbr='<? echo ($sort === "count" ? ($order === "asc" ? "desc" : "asc") : "asc");?>'>Count <i class='fa fa-fw fa-sort'></i></th>
-				<th id='category' abbr='asc'><a href='/category/list?sort=name&order=ASC'>Category</a></th>
+				<th id='category' abbr='asc'><a href='/categories?sort=name&order=ASC'>Category</a></th>
 				<th></th>
 			</tr>				
 		</thead>
