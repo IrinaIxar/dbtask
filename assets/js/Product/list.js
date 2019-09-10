@@ -31,7 +31,7 @@ $(document).ready(() => {
                 url: '/products/' + $(parent).attr('id'),
                 dataType: 'json',
                 success: (data) => {
-                    if (data.result === 'deleted') {
+                    if (data === 'deleted') {
                         $('#deleteResult').text('Product was deleted')
                         redirect(1)
                     } else {

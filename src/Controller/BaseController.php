@@ -1,5 +1,7 @@
 <?php
 
+use Zend\Diactoros\Response;
+
 class BaseController
 {
     protected $methodDefaults = [];
@@ -14,7 +16,8 @@ class BaseController
         extract($params);
         ob_start();
         require implode(DIRECTORY_SEPARATOR, [ROOTPATH, 'src', 'View', 'Layout', 'layout.html']);
-        echo ob_get_clean();
+//        echo ob_get_clean();
+        return new Response\HtmlResponse(ob_get_clean());
     }
 
     /**

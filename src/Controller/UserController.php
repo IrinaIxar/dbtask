@@ -1,5 +1,6 @@
 <?php
 require '../src/Repository/UserRepository.php';
+use Zend\Diactoros\Response;
 
 class UserController extends BaseController
 {
@@ -26,13 +27,13 @@ class UserController extends BaseController
         $userRepository = new UserRepository();
         $user = $userRepository->findByLogin($params['login']);
         if (!$user) {
-            echo json_encode(['result' => 'No such login']);
+            return new Response\JsonResponse('No such login');
         } else {
             if (md5($params['password']) !== $user->getPassword()) {
-                echo json_encode(['result' => 'Incorrect password']);
+                return new Response\JsonResponse('Incorrect password');
             } else {
                 $_SESSION['user'] = $params['login'];
-                echo json_encode(['result' => 'true']);
+                return new Response\JsonResponse('true');
             }
         }
     }
@@ -50,14 +51,14 @@ class UserController extends BaseController
         $user = $userRepository->findByLogin($params['addLogin']);
 
         if ($user) {
-            echo json_encode(['result' => 'Please choose another login, it is already exist']);
+            return new Response\JsonResponse('Please choose another login, it is already exist');
         } else {
             if ($params['addPassword'] !== $params['passwordRepeat']) {
-                echo json_encode(['result' => 'Please repeat password, because they are not the same']);
+                return new Response\JsonResponse('Please repeat password, because they are not the same');
             } else {
-                $result = $userRepository->add($request);
+                $userRepository->add($request);
                 $_SESSION['user'] = $params['addLogin'];
-                echo json_encode(['result' => 'true']);
+                return new Response\JsonResponse('true');
             }
         }
     }

@@ -10,29 +10,27 @@ $(document).ready(() => {
         },
         onkeyup: () => {
             $('#auth').valid()
-            if ($('#auth').valid()){
+            if ($('#auth').valid()) {
                 $('#submit').removeAttr('disabled')
             }
         },
         submitHandler: (form, event) => {
-            if ($('#auth').valid()){
+            if ($('#auth').valid()) {
                 $.ajax({
                     type: 'POST',
                     url: '/users/login',
                     data: $('#auth').serialize(),
                     dataType: 'json',
                     success: (data) => {
-                        if(data.result === 'true') {
-                            window.location='/products'
+                        if (data === "true") {
+                            window.location = '/products'
                         }
                         $('#result').text(data.result)
                     },
-                    error: (xhr, ajaxOptions, thrownError) => {
-                        alert(thrownError);
+                    error: () => {
                         $('#result').text('Authorization failed')
                     }
                 })
-                
                 return false
             }
         }
@@ -51,21 +49,21 @@ $(document).ready(() => {
             }
         },
         onkeyup: () => {
-            if ($('#addForm').valid()){
+            if ($('#addForm').valid()) {
                 $('#addButton').removeAttr('disabled')
             }
         },
         submitHandler: (form, event) => {
-            if ($('#addForm').valid()){
+            if ($('#addForm').valid()) {
                 $.ajax({
                     type: 'POST',
-                    url: window.location.origin+'/users/add',
+                    url: window.location.origin + '/users/add',
                     data: $('#addForm').serialize(),
                     dataType: 'json',
                     success: (data) => {
-                        $('#result').text(data.result)
-                        if(data.result === 'true') {
-                            window.location='/products'
+                        $('#result').text(data)
+                        if (data === "true") {
+                            window.location = '/products'
                         }
                     },
                     error: () => {

@@ -2,42 +2,27 @@
 require_once '../vendor/autoload.php';
 require_once '../src/Controller/BaseController.php';
 
+use Middlewares\Utils\CallableHandler;
+use Middlewares\Utils\Dispatcher;
+use Zend\Diactoros\ServerRequestFactory;
+
 class Kernel
 {
     protected $dispatcher;
 
     public function __construct()
     {
-        $this->dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
+        $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
             $routes = include('../config/routes.php');
             foreach ($routes as $route) {
                 $r->addRoute($route[0], $route[1], $route[2]);
             }
         });
-    }
 
-    public function initialize($request)
-    {
-        $uri = $request->getUri()->getPath();
-        if (false !== $pos = strpos($uri, '?')) {
-            $uri = substr($uri, 0, $pos);
-        }
-
-        $routeInfo = $this->dispatcher->dispatch($_SERVER['REQUEST_METHOD'], rawurldecode($uri));
-        switch ($routeInfo[0]) {
-            case FastRoute\Dispatcher::NOT_FOUND:
-                echo 'Not found such route';
-                break;
-            case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
-                $allowedMethods = $routeInfo[1];
-                $allowed = '';
-                foreach ($allowedMethods as $index => $method) {
-                    $allowed .= $method.($allowedMethods[($index + 1)] ? ',' : '');
-                }
-                echo 'Not allowed method. Please try '.$allowed;
-                break;
-            case FastRoute\Dispatcher::FOUND:
-                list($controllerName, $controllerMethod, $middlewares) = $routeInfo[1];
+        $this->dispatcher = new Dispatcher([
+            new Middlewares\FastRoute($dispatcher),
+            new CallableHandler(function ($request) {
+                list($controllerName, $controllerMethod, $middlewares) = $request->getAttribute('request-handler');
 
                 //init middlewares for current uri
                 if ($middlewares) {
@@ -54,8 +39,14 @@ class Kernel
                 $path = implode(DIRECTORY_SEPARATOR, [ROOTPATH, 'src', 'Controller', $controllerName.'.php']);
                 require_once $path;
                 $controller = new $controllerName();
-                $controller->{$controllerMethod}($request);
-                break;
-        }
+                $response = $controller->{$controllerMethod}($request);
+                return $response;
+            })
+        ]);
+    }
+
+    public function initialize() {
+        $response = $this->dispatcher->dispatch(ServerRequestFactory::fromGlobals());
+        echo $response->getBody();
     }
 }

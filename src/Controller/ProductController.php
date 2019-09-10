@@ -5,6 +5,8 @@ use Zend\Diactoros\ServerRequestFactory;
 require '../src/Repository/ProductRepository.php';
 require '../src/Repository/CategoryRepository.php';
 
+use Zend\Diactoros\Response;
+
 class ProductController extends BaseController
 {
     /**
@@ -56,7 +58,7 @@ class ProductController extends BaseController
         $productRepository = new ProductRepository();
         $result = $productRepository->add($request);
 
-        echo json_encode(['result' => $result]);
+        return new Response\JsonResponse($result);
     }
 
     /**
@@ -89,7 +91,7 @@ class ProductController extends BaseController
     {
         $productRepository = new ProductRepository();
         $productRepository->update($request);
-        echo json_encode(['result' => 'true']);
+        return new Response\JsonResponse('true');
     }
 
     /**
@@ -104,6 +106,6 @@ class ProductController extends BaseController
         $productRepository = new ProductRepository();
         $result = $productRepository->remove(end($path));
 
-        echo json_encode(['result' => $result]);
+        return new Response\JsonResponse($result);
     }
 }

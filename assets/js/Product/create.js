@@ -31,8 +31,8 @@ $(document).ready(() => {
                     data: $('#addForm').serialize(),
                     dataType: 'json',
                     success: (data) => {
-                        if (data.result === true) $('#result').text('Product was successfully added')
-                        else $('#result').text(data.result)
+                        if (data === true) $('#result').text('Product was successfully added')
+                        else $('#result').text(data)
                     },
                     error: (xhr, status, error) => {
                         $('#result').text('Product was not added')
