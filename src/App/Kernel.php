@@ -1,6 +1,7 @@
 <?
 require_once '../vendor/autoload.php';
 require_once '../src/Controller/BaseController.php';
+require_once '../src/Middleware/UserAuthorization.php';
 
 use Middlewares\Utils\CallableHandler;
 use Middlewares\Utils\Dispatcher;
@@ -46,7 +47,12 @@ class Kernel
     }
 
     public function initialize() {
-        $response = $this->dispatcher->dispatch(ServerRequestFactory::fromGlobals());
+        $request = ServerRequestFactory::fromGlobals();
+        //check user authorization
+        if(!UserAuthorization::handle() && $request ->getUri()->getPath() !== '/users/login') {
+            $request = ServerRequestFactory::createServerRequest('GET', '/');
+        }
+        $response = $this->dispatcher->dispatch($request);
         echo $response->getBody();
     }
 }

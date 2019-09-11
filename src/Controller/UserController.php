@@ -10,8 +10,9 @@ class UserController extends BaseController
      *
      * @return view
      */
-    public function authorization($request)
+    public function authorization()
     {
+        var_dump('lll');
         return $this->render('User/authorization.html', []);
     }
 

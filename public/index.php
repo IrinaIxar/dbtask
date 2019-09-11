@@ -6,6 +6,7 @@ require '../src/App/Kernel.php';
 require '../config/config.php';
 require '../config/routes.php';
 
+session_start();
 $kernel = new Kernel();
 $kernel->initialize();
 
