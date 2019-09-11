@@ -1,5 +1,7 @@
 <?
 
+namespace Middleware;
+
 class ProductUpdateValidation
 {
     public function handle($request)

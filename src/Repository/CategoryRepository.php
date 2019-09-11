@@ -1,5 +1,9 @@
 <?php
 
+namespace Repository;
+
+use Entity\Category;
+
 class CategoryRepository
 {
     protected $em;
@@ -7,8 +11,8 @@ class CategoryRepository
 
     public function __construct()
     {
-        $this->em = DoctrineEM::getInstance();
-        $this->categoryRepository = $this->em->getRepository('Category');
+        $this->em = \App\DoctrineEM::getInstance();
+        $this->categoryRepository = $this->em->getRepository('\Entity\Category');
     }
 
     /**
@@ -33,7 +37,7 @@ class CategoryRepository
     public function findAllProductCount($field = '', $order = '')
     {
         $qb = $this->em->createQueryBuilder();
-        $qb->from('Product', 'p')
+        $qb->from('\Entity\Product', 'p')
             ->select('c.name as name')
             ->where('p.deleted = 0')
             ->andWhere('c.deleted = 0')

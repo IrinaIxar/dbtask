@@ -1,6 +1,8 @@
 <?
 
-class User implements JsonSerializable
+namespace Entity;
+
+class User implements \JsonSerializable
 {
     protected $id;
     protected $login;

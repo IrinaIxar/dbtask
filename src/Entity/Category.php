@@ -1,6 +1,8 @@
 <?php
 
-class Category implements JsonSerializable
+namespace Entity;
+
+class Category implements \JsonSerializable
 {
     protected $id;
     protected $name;

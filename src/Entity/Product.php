@@ -1,6 +1,8 @@
 <?php
 
-class Product implements JsonSerializable
+namespace Entity;
+
+class Product implements \JsonSerializable
 {
     protected $id;
     protected $name;

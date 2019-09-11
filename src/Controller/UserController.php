@@ -1,6 +1,9 @@
 <?php
-require '../src/Repository/UserRepository.php';
+
+namespace Controller;
+
 use Zend\Diactoros\Response;
+use Repository\UserRepository;
 
 class UserController extends BaseController
 {
@@ -12,7 +15,6 @@ class UserController extends BaseController
      */
     public function authorization()
     {
-        var_dump('lll');
         return $this->render('User/authorization.html', []);
     }
 

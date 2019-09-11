@@ -1,5 +1,8 @@
 <?php
-require '../src/Repository/CategoryRepository.php';
+
+namespace Controller;
+
+use Repository\CategoryRepository;
 
 class CategoryController extends BaseController
 {

@@ -15,9 +15,12 @@
         "middlewares/fast-route": "^1.2"
     },
     "autoload": {
-        "psr-0": {
-            "": "src/Entity",
-            "Controller": "src/Controller"
+        "psr-4": {
+            "Entity\\": "src/Entity",
+            "Controller\\": "src/Controller",
+            "Middleware\\": "src/Middleware",
+            "Repository\\": "src/Repository",
+            "App\\": "src/App"
         }
     }
 }

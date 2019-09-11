@@ -1,11 +1,11 @@
 <?php
 
+namespace Controller;
+
 use Zend\Diactoros\Response;
 
 class BaseController
 {
-    protected $methodDefaults = [];
-
     /**
      * Render main layout with current action view if it is needed
      *

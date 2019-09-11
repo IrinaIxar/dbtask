@@ -1,11 +1,10 @@
 <?php
 
-use Zend\Diactoros\ServerRequestFactory;
-
-require '../src/Repository/ProductRepository.php';
-require '../src/Repository/CategoryRepository.php';
+namespace Controller;
 
 use Zend\Diactoros\Response;
+use Repository\ProductRepository;
+use Repository\CategoryRepository;
 
 class ProductController extends BaseController
 {

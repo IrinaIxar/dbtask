@@ -1,5 +1,6 @@
 <?
-require_once '../src/Controller/UserController.php';
+
+namespace Middleware;
 
 class UserAuthorization
 {

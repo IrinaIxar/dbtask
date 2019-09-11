@@ -1,7 +1,6 @@
 <?
-require_once '../vendor/autoload.php';
-require_once '../src/Controller/BaseController.php';
-require_once '../src/Middleware/UserAuthorization.php';
+
+namespace App;
 
 use Middlewares\Utils\CallableHandler;
 use Middlewares\Utils\Dispatcher;
@@ -13,7 +12,7 @@ class Kernel
 
     public function __construct()
     {
-        $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
+        $dispatcher = \FastRoute\simpleDispatcher(function (\FastRoute\RouteCollector $r) {
             $routes = include('../config/routes.php');
             foreach ($routes as $route) {
                 $r->addRoute($route[0], $route[1], $route[2]);
@@ -21,24 +20,20 @@ class Kernel
         });
 
         $this->dispatcher = new Dispatcher([
-            new Middlewares\FastRoute($dispatcher),
+            new \Middlewares\FastRoute($dispatcher),
             new CallableHandler(function ($request) {
                 list($controllerName, $controllerMethod, $middlewares) = $request->getAttribute('request-handler');
 
                 //init middlewares for current uri
                 if ($middlewares) {
                     foreach ($middlewares as $middleware) {
-                        $middleware = ucfirst($middleware);
-                        $path = implode(DIRECTORY_SEPARATOR, [ROOTPATH, 'src', 'Middleware', $middleware.'.php']);
-                        require $path;
+                        $middleware = '\\Middleware\\' . ucfirst($middleware);
                         $request = $middleware::handle($request);
                     }
                 }
 
                 //call needed Controller action
-                $controllerName = ucfirst($controllerName).'Controller';
-                $path = implode(DIRECTORY_SEPARATOR, [ROOTPATH, 'src', 'Controller', $controllerName.'.php']);
-                require_once $path;
+                $controllerName = '\\Controller\\' . ucfirst($controllerName).'Controller';
                 $controller = new $controllerName();
                 $response = $controller->{$controllerMethod}($request);
                 return $response;
@@ -49,7 +44,7 @@ class Kernel
     public function initialize() {
         $request = ServerRequestFactory::fromGlobals();
         //check user authorization
-        if(!UserAuthorization::handle() && $request ->getUri()->getPath() !== '/users/login') {
+        if(!\Middleware\UserAuthorization::handle() && $request ->getUri()->getPath() !== '/users/login') {
             $request = ServerRequestFactory::createServerRequest('GET', '/');
         }
         $response = $this->dispatcher->dispatch($request);

@@ -1,5 +1,7 @@
 <?
 
+namespace Middleware;
+
 class CategoryListValidation
 {
     public function handle($request)

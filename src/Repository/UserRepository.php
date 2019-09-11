@@ -1,5 +1,8 @@
 <?php
 
+namespace Repository;
+use Entity\User;
+
 class UserRepository
 {
     protected $em;
@@ -7,8 +10,8 @@ class UserRepository
 
     public function __construct()
     {
-        $this->em = DoctrineEM::getInstance();
-        $this->userRepository = $this->em->getRepository('User');
+        $this->em = \App\DoctrineEM::getInstance();
+        $this->userRepository = $this->em->getRepository('\Entity\User');
     }
 
     /**

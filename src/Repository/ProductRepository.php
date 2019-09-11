@@ -1,5 +1,8 @@
 <?php
 
+namespace Repository;
+use Entity\Product;
+
 class ProductRepository
 {
     protected $em;
@@ -7,8 +10,8 @@ class ProductRepository
 
     public function __construct()
     {
-        $this->em = DoctrineEM::getInstance();
-        $this->productRepository = $this->em->getRepository('Product');
+        $this->em = \App\DoctrineEM::getInstance();
+        $this->productRepository = $this->em->getRepository('\Entity\Product');
     }
 
     /**
@@ -60,7 +63,7 @@ class ProductRepository
     public function add($request)
     {
         $params = $request->getParsedBody();
-        $categoryRepository = $this->em->getRepository('Category');
+        $categoryRepository = $this->em->getRepository('\Entity\Category');
         $category = $categoryRepository->find($params['category_id']);
 
         $product = new Product();
@@ -102,7 +105,7 @@ class ProductRepository
     public function update($request)
     {
         $params = $request->getParsedBody();
-        $categoryRepository = $this->em->getRepository('Category');
+        $categoryRepository = $this->em->getRepository('\Entity\Category');
         $category = $categoryRepository->find($params['category_id']);
         $product = $this->productRepository->findOneBy(['id' => $params['id']]);
 
