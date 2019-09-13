@@ -22,7 +22,7 @@ class Kernel
         $this->dispatcher = new Dispatcher([
             new \Middlewares\FastRoute($dispatcher),
             new CallableHandler(function ($request) {
-                list($controllerName, $controllerMethod, $middlewares) = $request->getAttribute('request-handler');
+                list($controllerName, $controllerMethod, $middlewares, $idNeed) = $request->getAttribute('request-handler');
 
                 //init middlewares for current uri
                 if ($middlewares) {
@@ -35,7 +35,14 @@ class Kernel
                 //call needed Controller action
                 $controllerName = '\\Controller\\' . ucfirst($controllerName).'Controller';
                 $controller = new $controllerName();
-                $response = $controller->{$controllerMethod}($request);
+                $params = [$request];
+                if($idNeed) {
+                    $path = explode('/', $request->getUri()->getPath());
+                    array_push($params, end($path));
+                }
+
+//                $response = $controller->{$controllerMethod}($request);
+                $response = call_user_func_array(array($controller, $controllerMethod), $params);
                 return $response;
             })
         ]);

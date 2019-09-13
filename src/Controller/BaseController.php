@@ -11,7 +11,7 @@ class BaseController
      *
      * @param  array  $params  params that are send to be shown
      */
-    public function renderLayout($params = [])
+    private function renderLayout($params = [])
     {
         extract($params);
         ob_start();

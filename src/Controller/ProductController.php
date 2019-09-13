@@ -20,7 +20,7 @@ class ProductController extends BaseController
         $productRepository = new ProductRepository();
         $pagesCount = ceil(count($productRepository->findAll()) / $params['countPerPage']);
         $sortFields = $this->addSortFieldsArray(['name', 'price', 'count']);
-        $sortFields[$params['sort']]['ascending'] = $params['order'] === 'asc' ? true : false;
+        $sortFields[$params['sort']]['ascending'] = $params['order'] === 'asc';
 
         return $this->render('Product/list.html', [
             'products' => $productRepository->findBy([], $params['page'], $params['countPerPage'], $params['sort'],
@@ -66,11 +66,10 @@ class ProductController extends BaseController
      * @param $request
      * @return view of update page
      */
-    public function edit($request)
+    public function edit($request, $id)
     {
-        $path = explode('/', $request->getUri()->getPath());
         $productRepository = new ProductRepository();
-        $product = $productRepository->findById(end($path));
+        $product = $productRepository->findById($id);
         $categoryRepository = new CategoryRepository();
         $categories = $categoryRepository->findAll();
 
@@ -99,11 +98,10 @@ class ProductController extends BaseController
      * @param $request
      * @return string
      */
-    public function delete($request)
+    public function delete($request, $id)
     {
-        $path = explode('/', $request->getUri()->getPath());
         $productRepository = new ProductRepository();
-        $result = $productRepository->remove(end($path));
+        $result = $productRepository->remove($id);
 
         return new Response\JsonResponse($result);
     }
